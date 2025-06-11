@@ -1,6 +1,6 @@
 pipeline{
     agent{
-        label "Jenkins-Agent" // here define a agent
+        label "Jenkins-Agent-1" // here define a agent
     }
     tools{ // define tools
         jdk 'Java17'
@@ -20,6 +20,26 @@ stages{
                 git branch: 'main', credentialsId: 'github', url: 'https://github.com/JimsonR/jenkins_project.git'
             }
         }
+    stage("Build Application"){
+            steps{
+                sh "mvn clean package"
+            }
+        }
 
-}
+    stage("Test application"){
+            steps{
+                sh "mvn test"
+            }
+        }
+    stage("Sonarqube Analysis"){
+            steps{
+              script{
+                 withSonarQubeEnv(credentialsId: 'jenkins-sonarqube-token'){
+                 sh "mvn sonar:sonar"
+            }
+          }
+       
+        }
+      }
+  }
 }

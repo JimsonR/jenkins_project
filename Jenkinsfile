@@ -20,5 +20,5 @@ stages{
                 git branch: 'main', credentialsId: 'github', url: 'https://github.com/JimsonR/jenkins_project.git'
             }
         }
-        
-   
+
+}
